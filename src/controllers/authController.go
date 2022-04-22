@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"ambassador/src/database"
+	"ambassador/src/middlewares"
 	"ambassador/src/models"
 
 	"github.com/dgrijalva/jwt-go"
@@ -92,24 +93,11 @@ func Login(c *fiber.Ctx) error {
 }
 
 func User(c *fiber.Ctx) error { // User를 얻어오기
-	cookie := c.Cookies("jwt")
-
-	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte("secret"), nil
-	})
-
-	if err != nil || !token.Valid {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "unauthorized",
-		})
-	}
-
-	payload := token.Claims.(*jwt.StandardClaims)
+	id, _ := middlewares.GetUserId(c)
 
 	var user models.User
 
-	database.DB.Where("id =?", payload.Subject).First(&user) // Subject에 userId를 넣었음으로 이걸로 유저의 정보를 통째로 끌고온다.
+	database.DB.Where("id =?", id).First(&user) // Subject에 userId를 넣었음으로 이걸로 유저의 정보를 통째로 끌고온다.
 
 	return c.JSON(user)
 }

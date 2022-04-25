@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"strconv"
 
 	"ambassador/src/database"
@@ -25,6 +26,7 @@ func CreateProduct(c *fiber.Ctx) error {
 	}
 
 	database.DB.Create(&product)
+	log.Printf("%v", product)
 
 	return c.JSON(product)
 }
@@ -44,9 +46,10 @@ func GetProduct(c *fiber.Ctx) error {
 func UpdateProduct(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 
-	product := models.Product{
-		Id: uint(id),
-	}
+	product := models.Product{}
+	product.Id = uint(id)
+
+	log.Printf("%v", product)
 
 	if err := c.BodyParser(&product); err != nil {
 		return err
@@ -60,9 +63,8 @@ func UpdateProduct(c *fiber.Ctx) error {
 func DeleteProduct(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 
-	product := models.Product{
-		Id: uint(id),
-	}
+	product := models.Product{}
+	product.Id = uint(id)
 
 	database.DB.Delete(&product)
 

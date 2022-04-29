@@ -14,3 +14,12 @@ func Orders(c *fiber.Ctx) error {
 
 	return c.JSON(orders)
 }
+
+func CreateOrder(c *fiber.Ctx) error {
+}
+
+func DeleteOrder(c *fiber.Ctx) error {
+}
+
+func UpdateOrder(c *fiber.Ctx) error {
+}

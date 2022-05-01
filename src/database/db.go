@@ -1,21 +1,42 @@
 package database
 
 import (
+	"log"
+	"os"
+	"time"
+
 	"ambassador/src/models"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var DB *gorm.DB // global
 
 func Connect() {
 	var err error
-	DB, err = gorm.Open(mysql.Open("root:root@tcp(db:3306)/ambassador"), &gorm.Config{})
+	dsn := "root:root@tcp(db:3306)/ambassador"
+	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		panic("Could not connect with the database!")
 	}
+
+	newLogger := logger.New(
+		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+		logger.Config{
+			SlowThreshold:             time.Second, // Slow SQL threshold
+			LogLevel:                  logger.Info, // Log level slient 1 ~ info 4
+			IgnoreRecordNotFoundError: true,        // Ignore ErrRecordNotFound error for logger
+			Colorful:                  true,        // Disable color
+		},
+	)
+
+	// populate log pre-fields here before set to
+	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+		Logger: newLogger,
+	})
 }
 
 func AutoMigrate() {

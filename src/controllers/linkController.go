@@ -16,5 +16,13 @@ func Link(c *fiber.Ctx) error {
 
 	database.DB.Where("user_id = ?", id).Find(&links)
 
+	for i, link := range links {
+		var orders []models.Order
+
+		database.DB.Where("code = ?", link.Code).Find(&orders)
+
+		links[i].Orders = orders
+	}
+
 	return c.JSON(links)
 }

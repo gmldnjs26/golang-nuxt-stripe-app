@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"strconv"
 	"strings"
 	"time"
 
@@ -9,7 +8,6 @@ import (
 	"ambassador/src/middlewares"
 	"ambassador/src/models"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -66,12 +64,24 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
-	payload := jwt.StandardClaims{
-		Subject:   strconv.Itoa(int(user.Id)), // 이거랑 string(user.Id)랑 다른가? 보다
-		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+	IsAmbassador := strings.Contains(c.Path(), "/api/ambassador")
+
+	var scope string
+
+	if IsAmbassador {
+		scope = "ambassador"
+	} else {
+		scope = "admin"
 	}
 
-	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, payload).SignedString([]byte("secret"))
+	if !IsAmbassador && user.IsAmbassador {
+		c.Status(fiber.StatusUnauthorized)
+		return c.JSON(fiber.Map{
+			"message": "unauthorized",
+		})
+	}
+
+	token, err := middlewares.GenerateJWT(user.Id, scope)
 	if err != nil {
 		c.Status(fiber.StatusBadRequest)
 		return c.JSON(fiber.Map{
@@ -99,6 +109,12 @@ func User(c *fiber.Ctx) error { // User를 얻어오기
 	var user models.User
 
 	database.DB.Where("id =?", id).First(&user) // Subject에 userId를 넣었음으로 이걸로 유저의 정보를 통째로 끌고온다.
+
+	if strings.Contains(c.Path(), "/api/ambassador") {
+		ambassador := models.Ambassador(user)
+		ambassador.CalculateRevenue(database.DB)
+		return c.JSON(ambassador)
+	}
 
 	return c.JSON(user)
 }

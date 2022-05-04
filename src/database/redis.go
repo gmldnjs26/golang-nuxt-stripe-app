@@ -24,11 +24,12 @@ func SetupCacheChannel() {
 
 	go func(ch chan string) {
 		for {
+			temp := <-ch
 			time.Sleep(5 * time.Second)
 
-			Cache.Del(context.Background(), <-ch)
+			Cache.Del(context.Background(), temp)
 
-			fmt.Println("Cache Cleared")
+			fmt.Println("Cache Clear", temp)
 		}
 	}(CacheChannel)
 }

@@ -186,7 +186,7 @@ func ProductsBackend(c *fiber.Ctx) error { // 검색기능
 	}
 
 	return c.JSON(fiber.Map{
-		"data":      data[(page-1)*perPage : page*perPage],
+		"data":      data,
 		"total":     total,
 		"page":      page,
 		"last_page": total/perPage + 1,

@@ -30,6 +30,7 @@ func SetupCacheChannel() {
 			Cache.Del(context.Background(), temp)
 
 			fmt.Println("Cache Clear", temp)
+			fmt.Println("Cache Clear2", temp)
 		}
 	}(CacheChannel)
 }

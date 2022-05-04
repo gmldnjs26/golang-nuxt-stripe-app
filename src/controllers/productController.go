@@ -34,6 +34,8 @@ func CreateProduct(c *fiber.Ctx) error {
 	database.DB.Create(&product)
 	log.Printf("%v", product)
 
+	go database.ClearCache("products_frontend", "products_backend")
+
 	return c.JSON(product)
 }
 
@@ -63,8 +65,20 @@ func UpdateProduct(c *fiber.Ctx) error {
 
 	database.DB.Model(&product).Updates(&product)
 
+	// go deleteCache("products_frontend") // 비동기처리
+	// go func(key string) {               // 이렇게 익명함수로도 go 키워드를 사용할 수 있다.
+	// 	time.Sleep(5 * time.Second)
+	// 	database.Cache.Del(context.Background(), key)
+	// }("products_backend")
+	go database.ClearCache("products_frontend", "products_backend")
+
 	return c.JSON(product)
 }
+
+// func deleteCache(key string) {
+// 	time.Sleep(5 * time.Second) // 이 작업이 5초가 걸린다고 가정
+// 	database.Cache.Del(context.Background(), key)
+// }
 
 func DeleteProduct(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
@@ -73,6 +87,8 @@ func DeleteProduct(c *fiber.Ctx) error {
 	product.Id = uint(id)
 
 	database.DB.Delete(&product)
+
+	go database.ClearCache("products_frontend", "products_backend")
 
 	return nil
 }

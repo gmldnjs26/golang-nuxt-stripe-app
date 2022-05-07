@@ -1,2 +1,4 @@
 backend/.dbdata
 backend/tmp/
+
+frontend-admin/node_modules

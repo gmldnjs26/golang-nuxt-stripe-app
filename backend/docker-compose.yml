@@ -11,12 +11,13 @@ services:
       - redis
 
   db:
+    platform: linux/x86_64 # M1チップ対応のため追記
     image: mysql:5.7
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: ambassador
-      MYSQL_USER: root
+      MYSQL_USER: ghw
       MYSQL_PASSWORD: root
     volumes:
       - .dbdata:/var/lib/mysql

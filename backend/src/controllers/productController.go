@@ -25,10 +25,17 @@ func Products(c *fiber.Ctx) error {
 }
 
 func CreateProduct(c *fiber.Ctx) error {
-	var product models.Product
+	var data map[string]string
 
-	if err := c.BodyParser(&product); err != nil {
+	if err := c.BodyParser(&data); err != nil {
 		return err
+	}
+	price, _ := strconv.ParseFloat(data["price"], 64)
+	product := models.Product{
+		Title:       data["title"],
+		Description: data["description"],
+		Price:       price,
+		Image:       data["image"],
 	}
 
 	database.DB.Create(&product)

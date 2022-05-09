@@ -35,15 +35,12 @@ export default Vue.extend({
   },
   methods: {
     async submit() {
-      const result = await axios.post(
-        "products",
-        JSON.stringify({
-          title: this.title,
-          description: this.description,
-          image: this.image,
-          price: this.price,
-        })
-      );
+      const result = await axios.post("products", {
+        title: this.title,
+        description: this.description,
+        image: this.image,
+        price: this.price,
+      });
       console.log(result);
 
       this.$router.push("/products");

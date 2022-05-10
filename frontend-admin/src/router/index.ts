@@ -7,6 +7,7 @@ import Users from "@/views/Users.vue";
 import Links from "@/views/Links.vue";
 import Products from "@/views/products/Products.vue";
 import ProductForm from "@/views/products/ProductForm.vue";
+import Orders from "@/views/Orders.vue";
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,8 @@ const routes: Array<RouteConfig> = [
       { path: "/users/:id/links", component: Links },
       { path: "/products", component: Products },
       { path: "/products/create", component: ProductForm },
+      { path: "/products/:id/edit", component: ProductForm },
+      { path: "/orders", component: Orders },
     ],
   },
   { path: "/login", component: Login },

@@ -33,15 +33,28 @@ export default Vue.extend({
       price: "",
     };
   },
+  async mounted() {
+    if (this.$route.params.id) {
+      const { data } = await axios.get(`products/${this.$route.params.id}`);
+      this.title = data.title;
+      this.description = data.description;
+      this.image = data.image;
+      this.price = data.price;
+    }
+  },
   methods: {
     async submit() {
-      const result = await axios.post("products", {
+      const data = {
         title: this.title,
         description: this.description,
         image: this.image,
         price: this.price,
-      });
-      console.log(result);
+      };
+      if (this.$route.params.id) {
+        await axios.put(`products/${this.$route.params.id}`, data);
+      } else {
+        await axios.post("products", data);
+      }
 
       this.$router.push("/products");
     },

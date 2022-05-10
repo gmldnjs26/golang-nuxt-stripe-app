@@ -32,7 +32,14 @@
             <td>{{ product.description }}</td>
             <td>{{ product.price }}</td>
             <td>
-              <v-btn @click="del(product.id)" color="error">Delete</v-btn>
+              <v-btn-toggle>
+                <v-btn
+                  @click="$router.push(`/products/${product.id}/edit`)"
+                  color="primary"
+                  >edit</v-btn
+                >
+                <v-btn @click="del(product.id)" color="error">Delete</v-btn>
+              </v-btn-toggle>
             </td>
           </tr>
         </tbody>
@@ -49,8 +56,9 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
 import axios from "axios";
-export default {
+export default Vue.extend({
   name: "Products",
   data() {
     return {
@@ -76,7 +84,7 @@ export default {
       }
     },
   },
-};
+});
 </script>
 
 <style></style>

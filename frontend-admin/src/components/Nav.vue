@@ -20,21 +20,20 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { User } from "@/types/user";
 import axios from "axios";
+import { User } from "@/types/user";
 
 export default Vue.extend({
   name: "Nav",
-  props: {
-    user: {
-      type: Object as () => User,
-      default: () => {},
-    },
-  },
   methods: {
     async logout() {
       await axios.post("logout");
       this.$router.push("/login");
+    },
+  },
+  computed: {
+    user(): User {
+      return this.$store.state.user;
     },
   },
 });

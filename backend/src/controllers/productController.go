@@ -60,15 +60,20 @@ func GetProduct(c *fiber.Ctx) error {
 
 func UpdateProduct(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
+	var data map[string]string
 
 	product := models.Product{}
 	product.Id = uint(id)
 
-	log.Printf("%v", product)
-
-	if err := c.BodyParser(&product); err != nil {
+	if err := c.BodyParser(&data); err != nil {
 		return err
 	}
+	price, _ := strconv.ParseFloat(data["price"], 64)
+
+	product.Title = data["title"]
+	product.Description = data["description"]
+	product.Price = price
+	product.Image = data["image"]
 
 	database.DB.Model(&product).Updates(&product)
 

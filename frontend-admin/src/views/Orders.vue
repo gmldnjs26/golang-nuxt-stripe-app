@@ -39,7 +39,7 @@ export default {
     };
   },
   async mounted() {
-    const { data } = axios.get("orders");
+    const { data } = await axios.get("orders");
 
     this.orders = data;
   },

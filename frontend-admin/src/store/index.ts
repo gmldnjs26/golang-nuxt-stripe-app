@@ -11,13 +11,11 @@ export default new Vuex.Store({
   },
   mutations: {
     SET_USER(state, payload) {
-      state.user.first_name = payload.first_name;
-      state.user.last_name = payload.last_name;
-      state.user.email = payload.email;
+      state.user = payload;
     },
   },
   actions: {
-    setUser({ commit }: { commit: Commit }, payload: User) {
+    set_user({ commit }: { commit: Commit }, payload: User) {
       commit("SET_USER", payload);
     },
   },

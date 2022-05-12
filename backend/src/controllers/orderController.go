@@ -23,7 +23,6 @@ func Orders(c *fiber.Ctx) error {
 		orders[i].Name = order.FullName()
 		orders[i].Total = order.GetTotal()
 	}
-
 	return c.JSON(orders)
 }
 

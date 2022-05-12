@@ -23,6 +23,15 @@
             Products
           </router-link>
         </li>
+        <li class="nav-item">
+          <router-link
+            class="nav-link active"
+            active-class="active"
+            to="/orders"
+          >
+            Orders
+          </router-link>
+        </li>
       </ul>
     </div>
   </nav>

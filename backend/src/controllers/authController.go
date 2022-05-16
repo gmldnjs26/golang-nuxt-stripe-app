@@ -127,7 +127,7 @@ func Logout(c *fiber.Ctx) error {
 		HTTPOnly: true,
 	}
 
-	c.Cookie(&cookie)
+	c.Cookie(&cookie) // 기간이 바로 끝나는 쿠키를 셋팅한다.
 
 	return c.JSON(fiber.Map{
 		"message": "success",

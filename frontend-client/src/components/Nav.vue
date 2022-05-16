@@ -1,69 +1,47 @@
 <template>
-  <header>
-    <div class="collapse bg-dark" id="navbarHeader">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-8 col-md-7 py-4">
-            <h4 class="text-white">About</h4>
-            <p class="text-muted">
-              Add some information about the album below, the author, or any
-              other background context. Make it a few sentences long so folks
-              can pick up some informative tidbits. Then, link them off to some
-              social networking sites or contact information.
-            </p>
-          </div>
-          <div class="col-sm-4 offset-md-1 py-4">
-            <h4 class="text-white">Contact</h4>
-            <ul class="list-unstyled">
-              <li><a href="#" class="text-white">Follow on Twitter</a></li>
-              <li><a href="#" class="text-white">Like on Facebook</a></li>
-              <li><a href="#" class="text-white">Email me</a></li>
-            </ul>
-          </div>
-        </div>
+  <div class="container">
+    <header
+      class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom"
+    >
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="#" class="nav-link px-2 link-secondary">Frontend</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">Backend</a></li>
+      </ul>
+
+      <div class="col-md-3 text-end" v-if="!user">
+        <button type="button" class="btn btn-outline-primary me-2">
+          Login
+        </button>
+        <button type="button" class="btn btn-primary">Sign-up</button>
       </div>
-    </div>
-    <div class="navbar navbar-dark bg-dark shadow-sm">
-      <div class="container">
-        <a href="#" class="navbar-brand d-flex align-items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            aria-hidden="true"
-            class="me-2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
-            />
-            <circle cx="12" cy="13" r="4" />
-          </svg>
-          <strong>Album</strong>
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarHeader"
-          aria-controls="navbarHeader"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
+      <div v-else>
+        <button type="button" class="btn btn-outline-primary me-2">
+          Logout
+        </button>
+        <button type="button" class="btn btn-primary">
+          {{ user.first_name }} {{ user.last_name }}
         </button>
       </div>
-    </div>
-  </header>
+    </header>
+  </div>
 </template>
 
 <script>
-export default {};
+import { computed } from "@vue/runtime-core";
+import { useStore } from "vuex";
+export default {
+  setup() {
+    const store = useStore();
+
+    const user = computed(() => {
+      return store.state.user;
+    });
+
+    return {
+      user,
+    };
+  },
+};
 </script>
 
 <style></style>

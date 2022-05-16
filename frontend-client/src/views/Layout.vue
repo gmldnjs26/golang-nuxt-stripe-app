@@ -63,8 +63,21 @@
 <script>
 import Nav from "@/components/Nav.vue";
 import Header from "@/components/Header.vue";
+import { onMounted } from "vue";
+import axios from "axios";
+import { useStore } from "vuex";
+
 export default {
   components: { Nav, Header },
+  setup() {
+    const store = useStore();
+
+    onMounted(async () => {
+      const { data } = await axios.get("user");
+
+      await store.dispatch("setUser", data);
+    });
+  },
 };
 </script>
 

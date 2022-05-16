@@ -9,13 +9,19 @@
       </ul>
 
       <div class="col-md-3 text-end" v-if="!user">
-        <button type="button" class="btn btn-outline-primary me-2">
+        <router-link to="/login" class="btn btn-outline-primary me-2">
           Login
-        </button>
-        <button type="button" class="btn btn-primary">Sign-up</button>
+        </router-link>
+        <router-link to="/register" class="btn btn-primary"
+          >Sign-up</router-link
+        >
       </div>
       <div v-else>
-        <button type="button" class="btn btn-outline-primary me-2">
+        <button
+          type="button"
+          class="btn btn-outline-primary me-2"
+          @click="logout"
+        >
           Logout
         </button>
         <button type="button" class="btn btn-primary">
@@ -29,6 +35,7 @@
 <script>
 import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
+import axios from "axios";
 export default {
   setup() {
     const store = useStore();
@@ -37,8 +44,14 @@ export default {
       return store.state.user;
     });
 
+    const logout = async () => {
+      await axios.post("logout");
+      await store.dispatch("set_user", null);
+    };
+
     return {
       user,
+      logout,
     };
   },
 };

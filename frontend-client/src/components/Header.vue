@@ -2,15 +2,15 @@
   <section class="py-5 text-center container">
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">Album example</h1>
-        <p class="lead text-muted">
-          Something short and leading about the collection below—its contents,
-          the creator, etc. Make it short and sweet, but not too short so folks
-          don’t simply skip over it entirely.
-        </p>
-        <p>
-          <a href="#" class="btn btn-primary my-2">Main call to action</a>
-          <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+        <h1 class="fw-light">{{ title }}</h1>
+        <p class="lead text-muted">{{ description }}</p>
+        <p v-if="!user">
+          <router-link to="/login" class="btn btn-primary my-2 mr-2"
+            >Login</router-link
+          >
+          <router-link to="/register" class="btn btn-secondary my-2"
+            >Sign up</router-link
+          >
         </p>
       </div>
     </div>
@@ -18,7 +18,33 @@
 </template>
 
 <script>
-export default {};
+import { computed, ref, watch } from "vue";
+import { useStore } from "vuex";
+export default {
+  name: "Header",
+  setup() {
+    const title = ref("Welcome");
+    const description = ref("Share links to earn money");
+    const store = useStore();
+
+    const user = computed(() => {
+      return store.state.user;
+    });
+
+    watch(user, () => {
+      title.value = user.value ? "$" + user.value.revenue : "Welcome";
+      description.value = user.value
+        ? "You have earned this far"
+        : "Share links to earn money";
+    });
+
+    return {
+      title,
+      description,
+      user,
+    };
+  },
+};
 </script>
 
 <style></style>

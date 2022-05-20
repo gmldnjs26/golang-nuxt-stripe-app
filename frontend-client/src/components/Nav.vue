@@ -17,6 +17,8 @@
         >
       </div>
       <div v-else>
+        <router-link to="/rankings" class="btn me-2"> Rankings </router-link>
+        <router-link to="/stats" class="btn me-2"> Stats </router-link>
         <button
           type="button"
           class="btn btn-outline-primary me-2"

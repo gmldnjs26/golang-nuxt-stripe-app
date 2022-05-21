@@ -56,19 +56,19 @@ import { computed, reactive, watch } from "vue";
 import { useStore } from "vuex";
 export default {
   setup() {
+    const store = useStore();
+    const user = computed(() => store.state.user);
+
     const infoData = reactive({
-      first_name: user.value.first_name,
-      last_name: user.value.last_name,
-      email: user.value.email,
+      first_name: "",
+      last_name: "",
+      email: "",
     });
 
     const passwordData = reactive({
       password: "",
       password_confirm: "",
     });
-
-    const store = useStore();
-    const user = computed(() => store.state.user);
 
     watch(user, () => {
       infoData.first_name = user.value.first_name;

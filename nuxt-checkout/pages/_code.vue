@@ -122,5 +122,8 @@ import Vue from 'vue'
 
 export default Vue.extend({
   name: 'IndexPage',
+  mounted() {
+    console.log(this.$route.params.code)
+  },
 })
 </script>

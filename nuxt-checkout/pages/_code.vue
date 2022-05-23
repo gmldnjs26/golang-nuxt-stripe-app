@@ -149,14 +149,8 @@ export default Vue.extend({
 
     return {
       user,
+      quantites,
       products,
-    }
-  },
-  data() {
-    return {
-      user: {},
-      products: [],
-      quantites: {},
     }
   },
   computed: {

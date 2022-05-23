@@ -3,7 +3,10 @@
     <main>
       <div class="py-5 text-center">
         <h2>Welcome</h2>
-        <p class="lead">has invited you to buy these products</p>
+        <p class="lead">
+          {{ user.first_name }} {{ user.last_name }}has invited you to buy these
+          products
+        </p>
       </div>
 
       <div class="row g-5">
@@ -13,17 +16,30 @@
             <span class="badge bg-primary rounded-pill">3</span>
           </h4>
           <ul class="list-group mb-3">
-            <li class="list-group-item d-flex justify-content-between lh-sm">
-              <div>
-                <h6 class="my-0">Product name</h6>
-                <small class="text-muted">Brief description</small>
-              </div>
-              <span class="text-muted">$12</span>
-            </li>
+            <div v-for="(product, i) in products" :key="i">
+              <li class="list-group-item d-flex justify-content-between lh-sm">
+                <div>
+                  <h6 class="my-0">{{ product.title }}</h6>
+                  <small class="text-muted">{{ product.description }}</small>
+                </div>
+                <span class="text-muted">${{ product.price }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between lh-sm">
+                <div>
+                  <h6 class="my-0">Quantity</h6>
+                </div>
+                <input
+                  v-model="quantites[product.id]"
+                  class="text-muted form-control quantity"
+                  type="number"
+                  min="0"
+                />
+              </li>
+            </div>
 
             <li class="list-group-item d-flex justify-content-between">
               <span>Total (USD)</span>
-              <strong>$20</strong>
+              <strong>${{ total }}</strong>
             </li>
           </ul>
         </div>
@@ -117,13 +133,44 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue'
 
 export default Vue.extend({
   name: 'IndexPage',
-  mounted() {
-    console.log(this.$route.params.code)
+  async asyncData(ctx) {
+    const { data } = await ctx.$axios.get(`links/${ctx.params.code}`)
+    const user = data.user
+    const products = data.products
+    const quantites = {}
+    products.forEach((p) => {
+      quantites[p.id] = 0
+    })
+
+    return {
+      user,
+      products,
+    }
+  },
+  data() {
+    return {
+      user: {},
+      products: [],
+      quantites: {},
+    }
+  },
+  computed: {
+    total() {
+      return this.products.reduce((s, p) => {
+        return (s = s + p.price * this.quantites[p.id])
+      }, 0)
+    },
   },
 })
 </script>
+
+<style scoped>
+.quantity {
+  width: 65px;
+}
+</style>

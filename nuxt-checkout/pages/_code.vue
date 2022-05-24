@@ -45,16 +45,16 @@
         </div>
         <div class="col-md-7 col-lg-8">
           <h4 class="mb-3">Personal Info</h4>
-          <form class="needs-validation" novalidate>
+          <form class="needs-validation" novalidate @submit.prevent="submit">
             <div class="row g-3">
               <div class="col-sm-6">
                 <label for="firstName" class="form-label">First name</label>
                 <input
                   id="firstName"
+                  v-model="first_name"
                   type="text"
                   class="form-control"
                   placeholder="First Name"
-                  value=""
                   required
                 />
               </div>
@@ -63,10 +63,10 @@
                 <label for="lastName" class="form-label">Last name</label>
                 <input
                   id="lastName"
+                  v-model="last_name"
                   type="text"
                   class="form-control"
                   placeholder="Last Name"
-                  value=""
                   required
                 />
               </div>
@@ -75,6 +75,7 @@
                 <label for="email" class="form-label">Email </label>
                 <input
                   id="email"
+                  v-model="email"
                   type="email"
                   class="form-control"
                   placeholder="you@example.com"
@@ -85,6 +86,7 @@
                 <label for="address" class="form-label">Address</label>
                 <input
                   id="address"
+                  v-model="address"
                   type="text"
                   class="form-control"
                   placeholder="1234 Main St"
@@ -96,6 +98,7 @@
                 <label for="country" class="form-label">Country</label>
                 <input
                   id="country"
+                  v-model="country"
                   type="text"
                   class="form-control"
                   placeholder="Country"
@@ -106,6 +109,7 @@
                 <label for="state" class="form-label">City</label>
                 <input
                   id="city"
+                  v-model="city"
                   type="text"
                   class="form-control"
                   placeholder="City"
@@ -115,6 +119,7 @@
                 <label for="zip" class="form-label">Zip</label>
                 <input
                   id="zip"
+                  v-model="zip"
                   type="text"
                   class="form-control"
                   placeholder="Zip"
@@ -153,11 +158,46 @@ export default Vue.extend({
       products,
     }
   },
+  data() {
+    return {
+      first_name: '',
+      last_name: '',
+      email: '',
+      address: '',
+      country: '',
+      city: '',
+      zip: '',
+    }
+  },
   computed: {
     total() {
       return this.products.reduce((s, p) => {
         return (s = s + p.price * this.quantites[p.id])
       }, 0)
+    },
+  },
+  methods: {
+    async submit() {
+      const { data } = await this.$axios.post('orders', {
+        first_name: this.first_name,
+        last_name: this.last_name,
+        email: this.email,
+        address: this.address,
+        country: this.country,
+        city: this.city,
+        zip: this.zip,
+        code: this.$route.params.code,
+        products: this.products.map((p) => ({
+          product: p.id,
+          quantity: parseInt(this.quantites[p.id]),
+        })),
+      })
+
+      console.log(data)
+
+      this.$stripe.redirectToCheckout({
+        sessionId: data.transaction_id,
+      })
     },
   },
 })

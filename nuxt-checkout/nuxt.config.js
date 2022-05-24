@@ -45,6 +45,14 @@ export default {
     // 'bootstrap-vue/nuxt',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    // https://www.npmjs.com/package/nuxt-stripe-module
+    [
+      'nuxt-stripe-module',
+      {
+        publishableKey:
+          'pk_test_51KvyLfCXj5HN8X9OCn8znS9epfEESd1IYpZcyoTdtoZuNZZDWShPu3SD0AzW4JtWboKEgqnRRH3uRw1MzLhSnHou00ZbxubyJ7',
+      },
+    ],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -55,4 +63,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  server: {
+    port: 5000,
+  },
 }

@@ -31,7 +31,8 @@ export default {
     };
   },
   async mounted() {
-    const { data } = axios.get(`users/${this.$router.params.id}/links`);
+    const { data } = await axios.get(`users/${this.$route.params.id}/links`);
+    console.log(data);
     this.links = data;
   },
 };

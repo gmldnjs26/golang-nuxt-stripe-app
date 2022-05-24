@@ -42,6 +42,7 @@ func CreateOrder(c *fiber.Ctx) error {
 	var request CreateOrderRequest
 
 	if err := c.BodyParser(&request); err != nil {
+		fmt.Println(err)
 		return err
 	}
 

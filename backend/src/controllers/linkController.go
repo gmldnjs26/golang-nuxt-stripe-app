@@ -21,7 +21,12 @@ func Link(c *fiber.Ctx) error {
 	for i, link := range links {
 		var orders []models.Order
 
-		database.DB.Where("code = ?", link.Code).Find(&orders)
+		database.DB.Where("code = ?", link.Code).Preload("OrderItems").Find(&orders)
+
+		for k, order := range orders {
+			orders[k].Name = order.FullName()
+			orders[k].Total = order.GetTotal()
+		}
 
 		links[i].Orders = orders
 	}

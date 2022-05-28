@@ -1,7 +1,7 @@
 # golang-nuxt-stripe-app
 
 VueJS with Typescript, Nuxt.js, Vuetify, Golang, Docker, Redis, Stripe, Frontend & Backend Filtering, Gorutines,Channels
-
+Cancel changes
 ### Directory 
 
 ```bash
@@ -21,3 +21,9 @@ VueJS with Typescript, Nuxt.js, Vuetify, Golang, Docker, Redis, Stripe, Frontend
 ├── nuxt-checkout // for payment and checkout
 
 ```
+
+- [ ] create GCS
+- [ ] create Clound Functions(image resizing?)
+- [ ] create prod env
+- [ ] create stg env? 
+- [ ] Fix BUG

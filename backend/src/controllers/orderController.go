@@ -86,8 +86,7 @@ func CreateOrder(c *fiber.Ctx) error {
 
 	for _, requestProduct := range request.Products {
 		product := models.Product{}
-		product.Id = uint(requestProduct["product_id"])
-		database.DB.First(&product)
+		database.DB.First(&product, uint(requestProduct["product_id"]))
 
 		total := product.Price * float64(requestProduct["quantity"])
 

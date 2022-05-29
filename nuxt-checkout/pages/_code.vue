@@ -188,7 +188,7 @@ export default Vue.extend({
         zip: this.zip,
         code: this.$route.params.code,
         products: this.products.map((p) => ({
-          product: p.id,
+          product_id: p.id,
           quantity: parseInt(this.quantites[p.id]),
         })),
       })

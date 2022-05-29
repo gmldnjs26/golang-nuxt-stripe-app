@@ -46,11 +46,11 @@ func CreateOrder(c *fiber.Ctx) error {
 		return err
 	}
 
-	link := models.Link{
-		Code: request.Code,
-	}
+	link := models.Link{}
 
-	database.DB.Preload("User").First(&link)
+	database.DB.Preload("User").First(&link, models.Link{
+		Code: request.Code,
+	})
 
 	if link.Id == 0 {
 		c.Status(fiber.StatusBadRequest)

@@ -3,7 +3,7 @@ import { User } from "@/types/user";
 
 export default createStore({
   state: {
-    user: {} as User,
+    user: null,
   },
   mutations: {
     SET_USER(state, payload) {

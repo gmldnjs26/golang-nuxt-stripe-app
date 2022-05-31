@@ -23,8 +23,8 @@ VueJS with Typescript, Nuxt.js, Vuetify, Golang, Docker, Redis, Stripe, Gorutine
 
 ```
 
-- [ ] create GCS
+- [x] create DB Server in GCP
+- [ ] write .env for DB info 
 - [ ] create Clound Functions(image resizing?)
-- [ ] create prod env
-- [ ] create stg env? 
+
 - [ ] Fix BUG

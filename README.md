@@ -1,11 +1,11 @@
 # golang-nuxt-stripe-app
 
-VueJS with Typescript, Nuxt.js, Vuetify, Golang, Docker, Redis, Stripe, Frontend & Backend Filtering, Gorutines,Channels
-Cancel changes
+VueJS with Typescript, Nuxt.js, Vuetify, Golang, Docker, Redis, Stripe, Gorutines, Channels
+
 ### Directory 
 
 ```bash
-├── backend // server
+├── backend
 │ ├── src
 │ │ ├── commands // batch
 │ │ ├── controllers 
@@ -13,6 +13,7 @@ Cancel changes
 │ │ │ ├── db.go // mysql
 │ │ │ ├── redis.go // redis for Revenue Rank and product list
 │ │ ├── middlewares
+│ │ │ ├── auth.go // jwt token, Login
 │ │ ├── models
 │ │ ├── routes
 │ └── 이하생략..

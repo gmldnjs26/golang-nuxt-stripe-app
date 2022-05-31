@@ -16,7 +16,8 @@ var DB *gorm.DB // global
 
 func Connect() {
 	var err error
-	dsn := "root:root@tcp(db:3306)/ambassador"
+	// dsn := "root:root@tcp(db:3306)/ambassador"
+	dsn := "root:8200@tcp(34.146.117.72:3306)/ambassador"
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {

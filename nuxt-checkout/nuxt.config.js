@@ -28,7 +28,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: '~/plugins/axios-init.js', mode: 'server' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -58,8 +58,18 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://localhost:7070/api/checkout/',
+    baseURL: 'http://localhost:7070/',
+    // proxy: true,
   },
+  // proxy: {
+  //   '/api/checkout/': {
+  //     target: 'http://localhost:7070/',
+  //     path: {
+  //       '^/api/checkout/': '/api/checkout/',
+  //     },
+  //     changeOrigin: true,
+  //   },
+  // },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},

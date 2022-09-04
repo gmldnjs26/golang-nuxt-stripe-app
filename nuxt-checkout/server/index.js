@@ -1,9 +1,17 @@
-const app = require('express')()
+const express = require('express')
+
+const app = express()
 const { loadNuxt, build } = require('nuxt')
+const log4js = require('log4js')
+
+// process.env.DEBUG = 'nuxt:*'
 // Import and Set Nuxt.js options
 // let config = require('../nuxt.config.ts')
 const isDev = process.env.NODE_ENV !== 'production'
-const apiRouter = require('./middle')
+
+const { systemLogger } = require('./logger')
+
+app.use(log4js.connectLogger(systemLogger, { level: 'auto' }))
 
 /* eslint-disable */
 
@@ -13,12 +21,11 @@ async function start() {
 
   const { host, port } = nuxt.options.server
 
-  app.use((err, req, res, next) => {
-    console.error(err)
-    log.error(err.stack)
-    return res.status(err.statusCode || 500).send(err.message)
+  app.use(express.json()) // req.body에 json형식으로 저장하기 위해
+  app.post('/api/error', (req, res) => {
+    systemLogger.error(req.body)
+    res.json({ message: 'Success Error log' })
   })
-  app.use('/api', apiRouter)
   // Render every route with Nuxt
   app.use(nuxt.render)
 
@@ -29,7 +36,7 @@ async function start() {
   // Listen the server
   app.listen(port, host)
   // Listen the server
-  console.log(`Server listening on http://${host}:${port}`)
+  systemLogger.info(`Server listening on http://${host}:${port}`)
 }
 
 start()

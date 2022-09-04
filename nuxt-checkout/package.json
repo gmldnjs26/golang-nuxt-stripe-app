@@ -23,6 +23,7 @@
     "core-js": "^3.19.3",
     "cross-env": "^7.0.3",
     "express": "^4.18.1",
+    "log4js": "^6.6.1",
     "nodemon": "^2.0.19",
     "nuxt": "^2.15.8",
     "nuxt-stripe-module": "^3.2.0",
